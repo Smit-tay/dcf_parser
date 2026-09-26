@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/jack/dev/Smit-tay/eds_parser/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
