@@ -1,2 +1,0 @@
-/usr/bin/ar qc libeds_parser.a CMakeFiles/eds_parser.dir/src/ini_reader.cpp.o CMakeFiles/eds_parser.dir/src/parser.cpp.o
-/usr/bin/ranlib libeds_parser.a
