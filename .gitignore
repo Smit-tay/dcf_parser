@@ -1,0 +1,4 @@
+# ignore everything in build/ except the codeblocks project file
+
+build/*
+!build/eds_parser.cbp
