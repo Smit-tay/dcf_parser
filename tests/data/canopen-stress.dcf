@@ -1,0 +1,2605 @@
+[FileInfo]
+FileName=canopen-stress.dcf
+FileVersion=1
+FileRevision=1
+LastEDS=
+EDSVersion=4.0
+Description=Stress test: extreme PDO bit packing (unaligned, dummies, 64 bit values), broken or unusable TPDOs, and large awkward SDO objects
+CreationTime=12:00PM
+CreationDate=10-14-2026
+CreatedBy=dcf_parser tests
+ModificationTime=12:00PM
+ModificationDate=10-14-2026
+ModifiedBy=dcf_parser tests
+
+[DeviceInfo]
+VendorName=Example Vendor
+VendorNumber=0xABCD
+ProductName=stress-test slave
+ProductNumber=0x1234
+RevisionNumber=0x00010002
+BaudRate_10=1
+BaudRate_20=1
+BaudRate_50=1
+BaudRate_125=1
+BaudRate_250=1
+BaudRate_500=1
+BaudRate_800=1
+BaudRate_1000=1
+SimpleBootUpMaster=0
+SimpleBootUpSlave=1
+Granularity=1
+DynamicChannelsSupported=0
+CompactPDO=0
+GroupMessaging=0
+NrOfRXPDO=0
+NrOfTXPDO=11
+LSS_Supported=1
+
+[DeviceComissioning]
+NodeID=33
+NodeName=stress-slave
+Baudrate=250
+NetNumber=0
+NetworkName=
+CANopenManager=0
+LSS_SerialNumber=0xCAFE0001
+
+[DummyUsage]
+Dummy0001=1
+Dummy0002=0
+Dummy0003=0
+Dummy0004=0
+Dummy0005=0
+Dummy0006=1
+Dummy0007=0
+
+[Comments]
+Lines=0
+
+[MandatoryObjects]
+SupportedObjects=3
+1=0x1000
+2=0x1001
+3=0x1018
+
+[OptionalObjects]
+SupportedObjects=54
+1=0x1017
+2=0x1800
+3=0x1801
+4=0x1802
+5=0x1803
+6=0x1804
+7=0x1805
+8=0x1806
+9=0x1807
+10=0x1808
+11=0x1809
+12=0x180A
+13=0x1A00
+14=0x1A01
+15=0x1A02
+16=0x1A03
+17=0x1A04
+18=0x1A05
+19=0x1A06
+20=0x1A07
+21=0x1A08
+22=0x1A09
+23=0x1A0A
+24=0x2000
+25=0x2001
+26=0x2002
+27=0x2003
+28=0x2004
+29=0x2005
+30=0x2006
+31=0x2008
+32=0x2009
+33=0x200A
+34=0x200B
+35=0x200C
+36=0x200D
+37=0x200E
+38=0x2100
+39=0x2101
+40=0x2102
+41=0x2103
+42=0x2104
+43=0x2105
+44=0x2106
+45=0x2107
+46=0x2108
+47=0x2109
+48=0x210A
+49=0x210B
+50=0x6000
+51=0x6001
+52=0x6002
+53=0x6003
+54=0x6004
+
+[ManufacturerObjects]
+SupportedObjects=0
+
+[1000]
+ParameterName=Device type
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000000
+PDOMapping=0
+
+[1001]
+ParameterName=Error register
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=0
+PDOMapping=0
+
+[1017]
+ParameterName=Producer heartbeat time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=500
+PDOMapping=0
+
+[1018]
+ParameterName=Identity object
+ObjectType=0x9
+SubNumber=0x5
+
+[1018sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=4
+PDOMapping=0
+
+[1018sub1]
+ParameterName=Vendor-ID
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x0000ABCD
+PDOMapping=0
+
+[1018sub2]
+ParameterName=Product code
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00001234
+PDOMapping=0
+
+[1018sub3]
+ParameterName=Revision number
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00010002
+PDOMapping=0
+
+[1018sub4]
+ParameterName=Serial number
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0xCAFE0001
+PDOMapping=0
+
+[1800]
+ParameterName=TPDO 1 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1800sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1800sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x180
+PDOMapping=0
+
+[1800sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=255
+PDOMapping=0
+
+[1800sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1800sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1801]
+ParameterName=TPDO 2 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1801sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1801sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x280
+PDOMapping=0
+
+[1801sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1801sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1801sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1802]
+ParameterName=TPDO 3 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1802sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1802sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x380
+PDOMapping=0
+
+[1802sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1802sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1802sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1803]
+ParameterName=TPDO 4 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1803sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1803sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x480
+PDOMapping=0
+
+[1803sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1803sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1803sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1804]
+ParameterName=TPDO 5 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1804sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1804sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x5A0
+PDOMapping=0
+
+[1804sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1804sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1804sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1805]
+ParameterName=TPDO 6 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1805sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1805sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x80000580
+PDOMapping=0
+
+[1805sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1805sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1805sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1806]
+ParameterName=TPDO 7 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1806sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1806sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x200
+PDOMapping=0
+
+[1806sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1806sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1806sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1807]
+ParameterName=TPDO 8 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1807sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1807sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x300
+PDOMapping=0
+
+[1807sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1807sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1807sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1808]
+ParameterName=TPDO 9 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1808sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1808sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x38FEF133
+PDOMapping=0
+
+[1808sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1808sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1808sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1809]
+ParameterName=TPDO 10 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[1809sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[1809sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x340
+PDOMapping=0
+
+[1809sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1809sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1809sub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[180A]
+ParameterName=TPDO 11 communication parameter
+ObjectType=0x9
+SubNumber=0x5
+
+[180Asub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=5
+PDOMapping=0
+
+[180Asub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x40000440
+PDOMapping=0
+
+[180Asub2]
+ParameterName=Transmission type
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[180Asub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[180Asub5]
+ParameterName=Event timer
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A00]
+ParameterName=TPDO 1 mapping parameter
+ObjectType=0x9
+SubNumber=0x13
+
+[1A00sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=18
+PDOMapping=0
+
+[1A00sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000101
+PDOMapping=0
+
+[1A00sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000201
+PDOMapping=0
+
+[1A00sub3]
+ParameterName=Mapped object 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000301
+PDOMapping=0
+
+[1A00sub4]
+ParameterName=Mapped object 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000401
+PDOMapping=0
+
+[1A00sub5]
+ParameterName=Mapped object 5
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000501
+PDOMapping=0
+
+[1A00sub6]
+ParameterName=Mapped object 6
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000601
+PDOMapping=0
+
+[1A00sub7]
+ParameterName=Mapped object 7
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000701
+PDOMapping=0
+
+[1A00sub8]
+ParameterName=Mapped object 8
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000801
+PDOMapping=0
+
+[1A00sub9]
+ParameterName=Mapped object 9
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000901
+PDOMapping=0
+
+[1A00subA]
+ParameterName=Mapped object 10
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000A01
+PDOMapping=0
+
+[1A00subB]
+ParameterName=Mapped object 11
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000B01
+PDOMapping=0
+
+[1A00subC]
+ParameterName=Mapped object 12
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000C01
+PDOMapping=0
+
+[1A00subD]
+ParameterName=Mapped object 13
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000D01
+PDOMapping=0
+
+[1A00subE]
+ParameterName=Mapped object 14
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000E01
+PDOMapping=0
+
+[1A00subF]
+ParameterName=Mapped object 15
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20000F01
+PDOMapping=0
+
+[1A00sub10]
+ParameterName=Mapped object 16
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20001001
+PDOMapping=0
+
+[1A00sub11]
+ParameterName=Mapped object 17
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20010010
+PDOMapping=0
+
+[1A00sub12]
+ParameterName=Mapped object 18
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20020020
+PDOMapping=0
+
+[1A01]
+ParameterName=TPDO 2 mapping parameter
+ObjectType=0x9
+SubNumber=0xC
+
+[1A01sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=11
+PDOMapping=0
+
+[1A01sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200E0001
+PDOMapping=0
+
+[1A01sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20030010
+PDOMapping=0
+
+[1A01sub3]
+ParameterName=Mapped object 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20040020
+PDOMapping=0
+
+[1A01sub4]
+ParameterName=Mapped object 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20050008
+PDOMapping=0
+
+[1A01sub5]
+ParameterName=Mapped object 5
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060101
+PDOMapping=0
+
+[1A01sub6]
+ParameterName=Mapped object 6
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060201
+PDOMapping=0
+
+[1A01sub7]
+ParameterName=Mapped object 7
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060301
+PDOMapping=0
+
+[1A01sub8]
+ParameterName=Mapped object 8
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060401
+PDOMapping=0
+
+[1A01sub9]
+ParameterName=Mapped object 9
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060501
+PDOMapping=0
+
+[1A01subA]
+ParameterName=Mapped object 10
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060601
+PDOMapping=0
+
+[1A01subB]
+ParameterName=Mapped object 11
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20060701
+PDOMapping=0
+
+[1A02]
+ParameterName=TPDO 3 mapping parameter
+ObjectType=0x9
+SubNumber=0xC
+
+[1A02sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=11
+PDOMapping=0
+
+[1A02sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200E0001
+PDOMapping=0
+
+[1A02sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub3]
+ParameterName=Mapped object 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub4]
+ParameterName=Mapped object 4
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub5]
+ParameterName=Mapped object 5
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub6]
+ParameterName=Mapped object 6
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub7]
+ParameterName=Mapped object 7
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub8]
+ParameterName=Mapped object 8
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00010001
+PDOMapping=0
+
+[1A02sub9]
+ParameterName=Mapped object 9
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20050008
+PDOMapping=0
+
+[1A02subA]
+ParameterName=Mapped object 10
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00060010
+PDOMapping=0
+
+[1A02subB]
+ParameterName=Mapped object 11
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20080020
+PDOMapping=0
+
+[1A03]
+ParameterName=TPDO 4 mapping parameter
+ObjectType=0x9
+SubNumber=0x2
+
+[1A03sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A03sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20090040
+PDOMapping=0
+
+[1A04]
+ParameterName=TPDO 5 mapping parameter
+ObjectType=0x9
+SubNumber=0x2
+
+[1A04sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A04sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200A0040
+PDOMapping=0
+
+[1A05]
+ParameterName=TPDO 6 mapping parameter
+ObjectType=0x9
+SubNumber=0x2
+
+[1A05sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A05sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20030010
+PDOMapping=0
+
+[1A06]
+ParameterName=TPDO 7 mapping parameter
+ObjectType=0x9
+SubNumber=0x4
+
+[1A06sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=3
+PDOMapping=0
+
+[1A06sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200B0018
+PDOMapping=0
+
+[1A06sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200C0008
+PDOMapping=0
+
+[1A06sub3]
+ParameterName=Mapped object 3
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20030010
+PDOMapping=0
+
+[1A07]
+ParameterName=TPDO 8 mapping parameter
+ObjectType=0x9
+SubNumber=0x3
+
+[1A07sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=2
+PDOMapping=0
+
+[1A07sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x200D0008
+PDOMapping=0
+
+[1A07sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20050008
+PDOMapping=0
+
+[1A08]
+ParameterName=TPDO 9 mapping parameter
+ObjectType=0x9
+SubNumber=0x2
+
+[1A08sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A08sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20030010
+PDOMapping=0
+
+[1A09]
+ParameterName=TPDO 10 mapping parameter
+ObjectType=0x9
+SubNumber=0x3
+
+[1A09sub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=2
+PDOMapping=0
+
+[1A09sub1]
+ParameterName=Mapped object 1
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x29990020
+PDOMapping=0
+
+[1A09sub2]
+ParameterName=Mapped object 2
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20050008
+PDOMapping=0
+
+[1A0A]
+ParameterName=TPDO 11 mapping parameter
+ObjectType=0x9
+SubNumber=0x1
+
+[1A0Asub0]
+ParameterName=Number of mapped objects
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2000]
+ParameterName=Digital inputs (16 x BOOLEAN)
+ObjectType=0x8
+SubNumber=0x11
+
+[2000sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=16
+PDOMapping=0
+
+[2000sub1]
+ParameterName=Input 1
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub2]
+ParameterName=Input 2
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub3]
+ParameterName=Input 3
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub4]
+ParameterName=Input 4
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub5]
+ParameterName=Input 5
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub6]
+ParameterName=Input 6
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub7]
+ParameterName=Input 7
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub8]
+ParameterName=Input 8
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub9]
+ParameterName=Input 9
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subA]
+ParameterName=Input 10
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subB]
+ParameterName=Input 11
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subC]
+ParameterName=Input 12
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subD]
+ParameterName=Input 13
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subE]
+ParameterName=Input 14
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000subF]
+ParameterName=Input 15
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2000sub10]
+ParameterName=Input 16
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2001]
+ParameterName=Analog value (INTEGER16)
+ObjectType=0x7
+DataType=0x0003
+AccessType=rw
+DefaultValue=-300
+PDOMapping=1
+
+[2002]
+ParameterName=Temperature (REAL32)
+ObjectType=0x7
+DataType=0x0008
+AccessType=rw
+DefaultValue=21.5
+PDOMapping=1
+
+[2003]
+ParameterName=Counter (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[2004]
+ParameterName=Position (INTEGER32)
+ObjectType=0x7
+DataType=0x0004
+AccessType=rw
+DefaultValue=-100000
+PDOMapping=1
+
+[2005]
+ParameterName=Status (UNSIGNED8)
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[2006]
+ParameterName=Flags (7 x BOOLEAN)
+ObjectType=0x8
+SubNumber=0x8
+
+[2006sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=7
+PDOMapping=0
+
+[2006sub1]
+ParameterName=Flag 1
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub2]
+ParameterName=Flag 2
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub3]
+ParameterName=Flag 3
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub4]
+ParameterName=Flag 4
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub5]
+ParameterName=Flag 5
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub6]
+ParameterName=Flag 6
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2006sub7]
+ParameterName=Flag 7
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+PDOMapping=1
+
+[2008]
+ParameterName=Setpoint (INTEGER32)
+ObjectType=0x7
+DataType=0x0004
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[2009]
+ParameterName=Timestamp (UNSIGNED64)
+ObjectType=0x7
+DataType=0x001B
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[200A]
+ParameterName=Precise value (REAL64)
+ObjectType=0x7
+DataType=0x0011
+AccessType=rw
+DefaultValue=3.14159265358979
+PDOMapping=1
+
+[200B]
+ParameterName=Raw value (INTEGER24)
+ObjectType=0x7
+DataType=0x0010
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[200C]
+ParameterName=After the 24 bit value (UNSIGNED8)
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[200D]
+ParameterName=Wide counter (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[200E]
+ParameterName=Single flag (BOOLEAN)
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[2100]
+ParameterName=Byte buffer (32 x UNSIGNED8)
+ObjectType=0x8
+SubNumber=0x21
+
+[2100sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=32
+PDOMapping=0
+
+[2100sub1]
+ParameterName=Byte 1
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x01
+PDOMapping=0
+
+[2100sub2]
+ParameterName=Byte 2
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x02
+PDOMapping=0
+
+[2100sub3]
+ParameterName=Byte 3
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x03
+PDOMapping=0
+
+[2100sub4]
+ParameterName=Byte 4
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x04
+PDOMapping=0
+
+[2100sub5]
+ParameterName=Byte 5
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x05
+PDOMapping=0
+
+[2100sub6]
+ParameterName=Byte 6
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x06
+PDOMapping=0
+
+[2100sub7]
+ParameterName=Byte 7
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x07
+PDOMapping=0
+
+[2100sub8]
+ParameterName=Byte 8
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x08
+PDOMapping=0
+
+[2100sub9]
+ParameterName=Byte 9
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x09
+PDOMapping=0
+
+[2100subA]
+ParameterName=Byte 10
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0A
+PDOMapping=0
+
+[2100subB]
+ParameterName=Byte 11
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0B
+PDOMapping=0
+
+[2100subC]
+ParameterName=Byte 12
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0C
+PDOMapping=0
+
+[2100subD]
+ParameterName=Byte 13
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0D
+PDOMapping=0
+
+[2100subE]
+ParameterName=Byte 14
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0E
+PDOMapping=0
+
+[2100subF]
+ParameterName=Byte 15
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x0F
+PDOMapping=0
+
+[2100sub10]
+ParameterName=Byte 16
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x10
+PDOMapping=0
+
+[2100sub11]
+ParameterName=Byte 17
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x11
+PDOMapping=0
+
+[2100sub12]
+ParameterName=Byte 18
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x12
+PDOMapping=0
+
+[2100sub13]
+ParameterName=Byte 19
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x13
+PDOMapping=0
+
+[2100sub14]
+ParameterName=Byte 20
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x14
+PDOMapping=0
+
+[2100sub15]
+ParameterName=Byte 21
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x15
+PDOMapping=0
+
+[2100sub16]
+ParameterName=Byte 22
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x16
+PDOMapping=0
+
+[2100sub17]
+ParameterName=Byte 23
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x17
+PDOMapping=0
+
+[2100sub18]
+ParameterName=Byte 24
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x18
+PDOMapping=0
+
+[2100sub19]
+ParameterName=Byte 25
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x19
+PDOMapping=0
+
+[2100sub1A]
+ParameterName=Byte 26
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1A
+PDOMapping=0
+
+[2100sub1B]
+ParameterName=Byte 27
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1B
+PDOMapping=0
+
+[2100sub1C]
+ParameterName=Byte 28
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1C
+PDOMapping=0
+
+[2100sub1D]
+ParameterName=Byte 29
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1D
+PDOMapping=0
+
+[2100sub1E]
+ParameterName=Byte 30
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1E
+PDOMapping=0
+
+[2100sub1F]
+ParameterName=Byte 31
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x1F
+PDOMapping=0
+
+[2100sub20]
+ParameterName=Byte 32
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x20
+PDOMapping=0
+
+[2101]
+ParameterName=Bit flags (64 x BOOLEAN)
+ObjectType=0x8
+SubNumber=0x41
+
+[2101sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=64
+PDOMapping=0
+
+[2101sub1]
+ParameterName=Bit 1
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub2]
+ParameterName=Bit 2
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub3]
+ParameterName=Bit 3
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub4]
+ParameterName=Bit 4
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub5]
+ParameterName=Bit 5
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub6]
+ParameterName=Bit 6
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub7]
+ParameterName=Bit 7
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub8]
+ParameterName=Bit 8
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub9]
+ParameterName=Bit 9
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101subA]
+ParameterName=Bit 10
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101subB]
+ParameterName=Bit 11
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101subC]
+ParameterName=Bit 12
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101subD]
+ParameterName=Bit 13
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101subE]
+ParameterName=Bit 14
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101subF]
+ParameterName=Bit 15
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub10]
+ParameterName=Bit 16
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub11]
+ParameterName=Bit 17
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub12]
+ParameterName=Bit 18
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub13]
+ParameterName=Bit 19
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub14]
+ParameterName=Bit 20
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub15]
+ParameterName=Bit 21
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub16]
+ParameterName=Bit 22
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub17]
+ParameterName=Bit 23
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub18]
+ParameterName=Bit 24
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub19]
+ParameterName=Bit 25
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub1A]
+ParameterName=Bit 26
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub1B]
+ParameterName=Bit 27
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub1C]
+ParameterName=Bit 28
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub1D]
+ParameterName=Bit 29
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub1E]
+ParameterName=Bit 30
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub1F]
+ParameterName=Bit 31
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub20]
+ParameterName=Bit 32
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub21]
+ParameterName=Bit 33
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub22]
+ParameterName=Bit 34
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub23]
+ParameterName=Bit 35
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub24]
+ParameterName=Bit 36
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub25]
+ParameterName=Bit 37
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub26]
+ParameterName=Bit 38
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub27]
+ParameterName=Bit 39
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub28]
+ParameterName=Bit 40
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub29]
+ParameterName=Bit 41
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub2A]
+ParameterName=Bit 42
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub2B]
+ParameterName=Bit 43
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub2C]
+ParameterName=Bit 44
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub2D]
+ParameterName=Bit 45
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub2E]
+ParameterName=Bit 46
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub2F]
+ParameterName=Bit 47
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub30]
+ParameterName=Bit 48
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub31]
+ParameterName=Bit 49
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub32]
+ParameterName=Bit 50
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub33]
+ParameterName=Bit 51
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub34]
+ParameterName=Bit 52
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub35]
+ParameterName=Bit 53
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub36]
+ParameterName=Bit 54
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub37]
+ParameterName=Bit 55
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub38]
+ParameterName=Bit 56
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub39]
+ParameterName=Bit 57
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub3A]
+ParameterName=Bit 58
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub3B]
+ParameterName=Bit 59
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub3C]
+ParameterName=Bit 60
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub3D]
+ParameterName=Bit 61
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub3E]
+ParameterName=Bit 62
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2101sub3F]
+ParameterName=Bit 63
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2101sub40]
+ParameterName=Bit 64
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[2102]
+ParameterName=Packed configuration (RECORD)
+ObjectType=0x9
+SubNumber=0xA
+
+[2102sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=9
+PDOMapping=0
+
+[2102sub1]
+ParameterName=Enable (BOOLEAN)
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[2102sub2]
+ParameterName=Mode (UNSIGNED8)
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=3
+PDOMapping=0
+
+[2102sub3]
+ParameterName=Offset (INTEGER16)
+ObjectType=0x7
+DataType=0x0003
+AccessType=rw
+DefaultValue=-32768
+PDOMapping=0
+
+[2102sub4]
+ParameterName=Limit (UNSIGNED32)
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=0xFFFFFFFF
+PDOMapping=0
+
+[2102sub5]
+ParameterName=Big offset (INTEGER64)
+ObjectType=0x7
+DataType=0x0015
+AccessType=rw
+DefaultValue=-1
+ParameterValue=-9223372036854775808
+PDOMapping=0
+
+[2102sub6]
+ParameterName=Gain (REAL32)
+ObjectType=0x7
+DataType=0x0008
+AccessType=rw
+DefaultValue=1.0
+PDOMapping=0
+
+[2102sub7]
+ParameterName=Precise gain (REAL64)
+ObjectType=0x7
+DataType=0x0011
+AccessType=rw
+DefaultValue=0.5
+PDOMapping=0
+
+[2102sub8]
+ParameterName=Label (VISIBLE_STRING)
+ObjectType=0x7
+DataType=0x0009
+AccessType=rw
+DefaultValue=0123456789ABCDEFGHIJKLMNOPQRSTU
+PDOMapping=0
+
+[2102sub9]
+ParameterName=Raw (OCTET_STRING)
+ObjectType=0x7
+DataType=0x000A
+AccessType=rw
+DefaultValue=DEADBEEF
+PDOMapping=0
+
+[2103]
+ParameterName=Status register (UNSIGNED64, bit field)
+ObjectType=0x7
+DataType=0x001B
+AccessType=rw
+DefaultValue=0
+ParameterValue=0xA5A5A5A5A5A5A5A5
+PDOMapping=0
+
+[2104]
+ParameterName=Blob (DOMAIN)
+ObjectType=0x2
+DataType=0x000F
+AccessType=ro
+PDOMapping=0
+
+[2105]
+ParameterName=Small signed (INTEGER8)
+ObjectType=0x7
+DataType=0x0002
+AccessType=rw
+DefaultValue=-128
+ParameterValue=-1
+PDOMapping=0
+
+[2106]
+ParameterName=Address (UNSIGNED32, node-ID formula)
+ObjectType=0x7
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x600
+PDOMapping=0
+
+[2107]
+ParameterName=Odd width (INTEGER40)
+ObjectType=0x7
+DataType=0x0012
+AccessType=rw
+DefaultValue=-1
+PDOMapping=0
+
+[2108]
+ParameterName=Const value (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=const
+DefaultValue=0x1234
+PDOMapping=0
+
+[2109]
+ParameterName=Write only (UNSIGNED8)
+ObjectType=0x7
+DataType=0x0005
+AccessType=wo
+DefaultValue=7
+PDOMapping=0
+
+[210A]
+ParameterName=Process input (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=rwr
+DefaultValue=0
+PDOMapping=1
+
+[210B]
+ParameterName=Process output (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=rww
+DefaultValue=0
+PDOMapping=1
+
+[6000]
+ParameterName=Setpoint (UNSIGNED8)
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[6001]
+ParameterName=Output bytes (8 x UNSIGNED8)
+ObjectType=0x8
+SubNumber=0x9
+
+[6001sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=8
+PDOMapping=0
+
+[6001sub1]
+ParameterName=Output 1
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub2]
+ParameterName=Output 2
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub3]
+ParameterName=Output 3
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub4]
+ParameterName=Output 4
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub5]
+ParameterName=Output 5
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub6]
+ParameterName=Output 6
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub7]
+ParameterName=Output 7
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6001sub8]
+ParameterName=Output 8
+ObjectType=0x7
+DataType=0x0005
+AccessType=rw
+PDOMapping=0
+
+[6002]
+ParameterName=Profile record (RECORD)
+ObjectType=0x9
+SubNumber=0x4
+
+[6002sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=3
+PDOMapping=0
+
+[6002sub1]
+ParameterName=Enable (BOOLEAN)
+ObjectType=0x7
+DataType=0x0001
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[6002sub2]
+ParameterName=Scale (REAL32)
+ObjectType=0x7
+DataType=0x0008
+AccessType=rw
+DefaultValue=1.0
+PDOMapping=0
+
+[6002sub3]
+ParameterName=Name (VISIBLE_STRING)
+ObjectType=0x7
+DataType=0x0009
+AccessType=rw
+DefaultValue=abc
+PDOMapping=0
+
+[6003]
+ParameterName=Device constant (UNSIGNED16)
+ObjectType=0x7
+DataType=0x0006
+AccessType=const
+DefaultValue=0x1234
+PDOMapping=0
+
+[6004]
+ParameterName=Domain in profile (DOMAIN)
+ObjectType=0x2
+DataType=0x000F
+AccessType=rw
+PDOMapping=0
+
