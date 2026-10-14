@@ -212,8 +212,26 @@ std::expected<std::vector<uint8_t>, ParseError> encode_value(
         case DataType::Unknown:
             return bad("this data type cannot be encoded");
 
-        default:
-            break;   // the integer types, below
+        // The integer types are encoded below. Listed one by one (no default) so that a new data type
+        // is flagged here by the compiler's switch warnings.
+        case DataType::Boolean:
+        case DataType::Integer8:
+        case DataType::Integer16:
+        case DataType::Integer24:
+        case DataType::Integer32:
+        case DataType::Integer40:
+        case DataType::Integer48:
+        case DataType::Integer56:
+        case DataType::Integer64:
+        case DataType::Unsigned8:
+        case DataType::Unsigned16:
+        case DataType::Unsigned24:
+        case DataType::Unsigned32:
+        case DataType::Unsigned40:
+        case DataType::Unsigned48:
+        case DataType::Unsigned56:
+        case DataType::Unsigned64:
+            break;
     }
 
     const auto parsed = parse_int_value(text);
