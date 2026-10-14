@@ -1,5 +1,8 @@
 # ignore everything in build/ except the codeblocks project file
 
+# These are universally specific to the consumer of this library
+CMakeSettings.json
+
 build/*
 !build/eds_parser.cbp
 
