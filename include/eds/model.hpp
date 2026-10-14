@@ -152,6 +152,10 @@ struct EdsFile {
     Comments comments;
     // DCF §5.2 — LastEDS key from [FileInfo]; empty for pure EDS files
     std::string lastEds;
+    // Everything that was skipped or ignored while parsing (malformed lines,
+    // unreadable numbers, object sections no list refers to, ...).  Empty means
+    // the file was read completely.
+    std::vector<Warning> warnings;
 };
 
 // DCF extends EDS with device-commissioning data (§5)

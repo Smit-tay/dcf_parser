@@ -19,7 +19,20 @@ static std::string_view trim(std::string_view s) {
     return s;
 }
 
-std::expected<IniDocument, ParseError> parse_ini(std::string_view content) {
+std::expected<IniDocument, ParseError> parse_ini(std::string_view content,
+                                                 std::vector<Warning>& warnings) {
+    // Byte order mark.  Without this the first line reads "<BOM>[FileInfo]",
+    // which is not a section header, and the whole [FileInfo] section is lost.
+    if (content.starts_with("\xEF\xBB\xBF")) {
+        content.remove_prefix(3);
+    } else if (content.size() >= 2) {
+        const auto b0 = static_cast<unsigned char>(content[0]);
+        const auto b1 = static_cast<unsigned char>(content[1]);
+        if ((b0 == 0xFF && b1 == 0xFE) || (b0 == 0xFE && b1 == 0xFF))
+            return std::unexpected(ParseError{
+                "file is UTF-16; only ASCII/UTF-8 EDS/DCF files are supported", 1});
+    }
+
     IniDocument doc;
     // Synthetic section for entries that appear before the first [header].
     // Real EDS files never have such entries, but the slot simplifies
@@ -47,17 +60,12 @@ std::expected<IniDocument, ParseError> parse_ini(std::string_view content) {
         if (line.empty())
             continue;
 
-        // Comment: ';' in column 0 of the RAW line.
-        // Spec §4.2: "Each line of a comment shall start with a semicolon (;).
-        // It shall be in the leftmost column."  We check rawLine[0], not
-        // line[0], so leading spaces do NOT make a non-comment line into a
-        // comment.  A line like "  ;comment" is therefore malformed key=value,
-        // not a comment — spec-faithful.
-        if (rawLine[0] == ';')
+        // Comment (see the header for why leading blanks are accepted).
+        if (line.front() == ';')
             continue;
 
-        // Section header: '[' in column 0 per §4.2.
-        if (rawLine[0] == '[') {
+        // Section header.
+        if (line.front() == '[') {
             const auto close = line.find(']');
             if (close == std::string_view::npos)
                 return std::unexpected(ParseError{
@@ -71,18 +79,22 @@ std::expected<IniDocument, ParseError> parse_ini(std::string_view content) {
 
         // key=value pair.
         const auto eqPos = line.find('=');
-        if (eqPos == std::string_view::npos)
-            continue; // malformed line — skip silently (lenient)
+        if (eqPos == std::string_view::npos) {
+            warnings.push_back(Warning{"line ignored: not a key=value pair, section header or comment", lineNum});
+            continue;
+        }
 
         std::string_view key   = trim(line.substr(0, eqPos));
         std::string_view value = trim(line.substr(eqPos + 1));
 
-        if (key.empty())
+        if (key.empty()) {
+            warnings.push_back(Warning{"line ignored: empty key", lineNum});
             continue;
+        }
 
-        // Note: we do NOT strip inline ';' from value.
-        // Spec §4.2 says only column-0 semicolons are comments.
-        // Lely strips inline ';' — that is non-standard.
+        // Note: we do NOT strip inline ';' from value here — string values
+        // may legitimately contain one.  parse_int_value() strips it for
+        // numbers.
         current->entries.push_back(IniEntry{
             .key   = ascii_lower(key),
             .value = std::string(value),

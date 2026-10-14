@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(eds_parser STATIC
     src/ini_reader.cpp
     src/parser.cpp
+    src/pdo.cpp
 )
 
 target_include_directories(eds_parser
@@ -31,4 +32,22 @@ if(EDS_PARSER_BUILD_TOOLS)
     else()
         target_compile_options(eds_dump PRIVATE -Wall -Wextra -Wpedantic -Werror)
     endif()
+endif()
+
+# Tests — a plain executable with its own CHECK macro, no framework.
+# Run with:  ctest --output-on-failure
+option(EDS_PARSER_BUILD_TESTS "Build the parser tests" ON)
+if(EDS_PARSER_BUILD_TESTS)
+    enable_testing()
+    add_executable(eds_parser_tests tests/test_parser.cpp)
+    target_link_libraries(eds_parser_tests PRIVATE eds_parser)
+    target_compile_definitions(eds_parser_tests PRIVATE
+        EDS_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/data"
+        EDS_SAMPLE_EDS="${CMAKE_CURRENT_SOURCE_DIR}/sample.eds")
+    if(MSVC)
+        target_compile_options(eds_parser_tests PRIVATE /W4 /WX)
+    else()
+        target_compile_options(eds_parser_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+    add_test(NAME eds_parser COMMAND eds_parser_tests)
 endif()

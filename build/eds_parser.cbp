@@ -8,24 +8,24 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="eds_parser">
-				<Option output="/home/jack/dev/Smit-tay/eds_parser/build/libeds_parser.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option output="$HOME/dev/Smit-tay/eds_parser/build/libeds_parser.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/include"/>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/src"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/include"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/src"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward"/>
@@ -34,21 +34,21 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_parser"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_parser"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="eds_parser/fast">
-				<Option output="/home/jack/dev/Smit-tay/eds_parser/build/libeds_parser.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option output="$HOME/dev/Smit-tay/eds_parser/build/libeds_parser.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/include"/>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/src"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/include"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/src"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward"/>
@@ -57,20 +57,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_parser/fast"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_parser/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="eds_dump">
-				<Option output="/home/jack/dev/Smit-tay/eds_parser/build/eds_dump" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option output="$HOME/dev/Smit-tay/eds_parser/build/eds_dump" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/include"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward"/>
@@ -79,20 +79,20 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_dump"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_dump"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="eds_dump/fast">
-				<Option output="/home/jack/dev/Smit-tay/eds_parser/build/eds_dump" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option output="$HOME/dev/Smit-tay/eds_parser/build/eds_dump" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/jack/dev/Smit-tay/eds_parser/include"/>
+					<Add directory="$HOME/dev/Smit-tay/eds_parser/include"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward"/>
@@ -101,46 +101,46 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_dump/fast"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 eds_dump/fast"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/jack/dev/Smit-tay/eds_parser/build"/>
+				<Option working_dir="$HOME/dev/Smit-tay/eds_parser/build"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/jack/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j12 -f &quot;$HOME/dev/Smit-tay/eds_parser/build/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/jack/dev/Smit-tay/eds_parser/src/ini_reader.cpp">
+		<Unit filename="$HOME/dev/Smit-tay/eds_parser/src/ini_reader.cpp">
 			<Option target="eds_parser"/>
 		</Unit>
-		<Unit filename="/home/jack/dev/Smit-tay/eds_parser/src/ini_reader.hpp">
+		<Unit filename="$HOME/dev/Smit-tay/eds_parser/src/ini_reader.hpp">
 			<Option target="eds_parser"/>
 		</Unit>
-		<Unit filename="/home/jack/dev/Smit-tay/eds_parser/src/parser.cpp">
+		<Unit filename="$HOME/dev/Smit-tay/eds_parser/src/parser.cpp">
 			<Option target="eds_parser"/>
 		</Unit>
-		<Unit filename="/home/jack/dev/Smit-tay/eds_parser/tools/eds_dump.cpp">
+		<Unit filename="$HOME/dev/Smit-tay/eds_parser/tools/eds_dump.cpp">
 			<Option target="eds_dump"/>
 		</Unit>
-		<Unit filename="/home/jack/dev/Smit-tay/eds_parser/CMakeLists.txt">
+		<Unit filename="$HOME/dev/Smit-tay/eds_parser/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

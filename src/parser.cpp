@@ -1,10 +1,12 @@
 #include <eds/parser.hpp>
 #include "ini_reader.hpp"
 
+#include <algorithm>
 #include <charconv>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
+#include <set>
 #include <sstream>
 
 namespace eds {
@@ -15,66 +17,85 @@ using namespace detail;
 // §4.3 Integer value parsing
 // ---------------------------------------------------------------------------
 
+namespace {
+
+std::string_view trim_blanks(std::string_view s) {
+    while (!s.empty() && (s.front() == ' ' || s.front() == '\t'))
+        s.remove_prefix(1);
+    while (!s.empty() && (s.back() == ' ' || s.back() == '\t' || s.back() == '\r' || s.back() == '\n'))
+        s.remove_suffix(1);
+    return s;
+}
+
+// One number: [-]dec | [-]0x<hex> | [-]0<octal>.  The value is modulo 2^64, so
+// a negative number comes out as its two's complement.
+std::optional<uint64_t> parse_number_term(std::string_view t) {
+    bool negative = false;
+    if (!t.empty() && t.front() == '-') {
+        negative = true;
+        t = trim_blanks(t.substr(1));
+    }
+    // §4.3: "Hexadecimal numbers are preceded by 0x."
+    //       "Octal numbers shall start with a leading 0 (not followed by x)."
+    int base = 10;
+    if (t.size() >= 2 && t[0] == '0' && (t[1] == 'x' || t[1] == 'X')) {
+        base = 16;
+        t.remove_prefix(2);
+    } else if (t.size() >= 2 && t[0] == '0' && t[1] >= '0' && t[1] <= '7') {
+        base = 8;
+        t.remove_prefix(1);
+    }
+    if (t.empty())
+        return std::nullopt;
+
+    uint64_t magnitude = 0;
+    const char* const end = t.data() + t.size();
+    const auto [ptr, ec] = std::from_chars(t.data(), end, magnitude, base);
+    if (ec != std::errc{} || ptr != end)
+        return std::nullopt;
+    return negative ? uint64_t{0} - magnitude : magnitude;
+}
+
+} // namespace
+
 std::expected<IntValue, ParseError> parse_int_value(std::string_view s) {
+    // A trailing ";comment" is not part of the number (lely strips it as well).
+    if (const auto semi = s.find(';'); semi != std::string_view::npos)
+        s = s.substr(0, semi);
+    s = trim_blanks(s);
     if (s.empty())
         return std::unexpected(ParseError{"empty string is not an integer value"});
 
-    // $NODEID formula — spec §4.3 EBNF:
-    //   IntEntryValue = $NODEID { "+" number }
-    // "$NODEID" MUST appear at the very beginning (spec: "shall appear at the
-    // beginning of the expression").  The spec writes it in uppercase and does
-    // not declare the token case-insensitive.
-    // Lely deviation: lely accepts any case for "$NODEID".  We require uppercase.
-    if (s.starts_with("$NODEID")) {
-        std::string_view rest = s.substr(7);
-        // Strip optional whitespace between $NODEID and the '+'.
-        while (!rest.empty() && (rest[0] == ' ' || rest[0] == '\t'))
-            rest.remove_prefix(1);
-
-        if (rest.empty())
-            return NodeIdFormula{0}; // bare $NODEID, offset = 0
-
-        if (rest[0] != '+')
-            return std::unexpected(ParseError{
-                std::string("invalid $NODEID expression: '").append(s).append("'")});
-        rest.remove_prefix(1);
-        while (!rest.empty() && (rest[0] == ' ' || rest[0] == '\t'))
-            rest.remove_prefix(1);
-
-        auto offset = parse_int_value(rest);
-        if (!offset)
-            return std::unexpected(offset.error());
-        if (!std::holds_alternative<uint64_t>(*offset))
-            return std::unexpected(ParseError{
-                "nested $NODEID formula is not allowed"});
-        return NodeIdFormula{static_cast<uint32_t>(std::get<uint64_t>(*offset))};
-    }
-
-    // Determine numeric base from prefix — §4.3:
-    //   "Hexadecimal numbers are preceded by 0x."
-    //   "Octal numbers shall start with a leading 0 (not followed by x)."
-    uint64_t result = 0;
-    const char* begin = s.data();
-    const char* end   = s.data() + s.size();
-    int base = 10;
-
-    if (s.size() >= 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
-        base  = 16;
-        begin += 2;
-    } else if (s.size() >= 2 && s[0] == '0' && s[1] >= '0' && s[1] <= '7') {
-        // Leading '0' followed by an octal digit → octal.
-        // Consume the leading '0'; from_chars parses the rest in base 8.
-        base  = 8;
-        begin += 1;
-    }
-    // Otherwise: plain decimal.
-
-    const auto [ptr, ec] = std::from_chars(begin, end, result, base);
-    if (ec != std::errc{} || ptr != end)
+    const auto bad = [s](const char* why) {
         return std::unexpected(ParseError{
-            std::string("not a valid integer: '").append(s).append("'")});
+            std::string("not a valid integer expression (").append(why).append("): '").append(s).append("'")});
+    };
 
-    return result;
+    // Terms joined by '+', each a number or $NODEID (once, anywhere).
+    bool hasNodeId = false;
+    uint64_t sum = 0;
+    for (std::string_view rest = s;;) {
+        const auto plus = rest.find('+');
+        const std::string_view term = trim_blanks(rest.substr(0, plus));
+
+        if (ascii_lower(term) == "$nodeid") {
+            if (hasNodeId)
+                return bad("$NODEID twice");
+            hasNodeId = true;
+        } else if (const auto number = parse_number_term(term)) {
+            sum += *number;
+        } else {
+            return bad("bad number");
+        }
+
+        if (plus == std::string_view::npos)
+            break;
+        rest.remove_prefix(plus + 1);
+    }
+
+    if (hasNodeId)
+        return NodeIdFormula{static_cast<uint32_t>(sum)};
+    return sum;
 }
 
 uint32_t resolve_int_value(const IntValue& v, uint8_t nodeId) {
@@ -85,6 +106,46 @@ uint32_t resolve_int_value(const IntValue& v, uint8_t nodeId) {
         else
             return static_cast<uint32_t>(nodeId) + arg.offset;
     }, v);
+}
+
+unsigned data_type_bits(DataType t) {
+    switch (t) {
+        case DataType::Boolean:        return 1;
+        case DataType::Integer8:
+        case DataType::Unsigned8:      return 8;
+        case DataType::Integer16:
+        case DataType::Unsigned16:     return 16;
+        case DataType::Integer24:
+        case DataType::Unsigned24:     return 24;
+        case DataType::Integer32:
+        case DataType::Unsigned32:
+        case DataType::Real32:         return 32;
+        case DataType::Integer40:
+        case DataType::Unsigned40:     return 40;
+        case DataType::Integer48:
+        case DataType::Unsigned48:
+        case DataType::TimeOfDay:
+        case DataType::TimeDifference: return 48;
+        case DataType::Integer56:
+        case DataType::Unsigned56:     return 56;
+        case DataType::Integer64:
+        case DataType::Unsigned64:
+        case DataType::Real64:         return 64;
+        case DataType::VisibleString:
+        case DataType::OctetString:
+        case DataType::UnicodeString:
+        case DataType::Domain:
+        case DataType::Unknown:        return 0;
+    }
+    return 0;
+}
+
+int64_t sign_extend(uint64_t raw, unsigned bits) {
+    if (bits == 0 || bits >= 64)
+        return static_cast<int64_t>(raw);
+    const uint64_t signBit = uint64_t{1} << (bits - 1);
+    raw &= (uint64_t{1} << bits) - 1;
+    return static_cast<int64_t>((raw ^ signBit) - signBit);
 }
 
 // ---------------------------------------------------------------------------
@@ -154,17 +215,48 @@ std::string_view to_string(DataType t) {
 
 namespace {
 
+// Where warn() collects.  The model-building helpers below are many and small;
+// threading a list through every one of them would bury the logic, so the list
+// of the file being parsed is installed here for the duration of the call
+// (WarningScope).  Thread-local, so parsing on several threads is fine.
+thread_local std::vector<Warning>* g_warnings = nullptr;
+
+void warn(int line, std::string message) {
+    if (g_warnings)
+        g_warnings->push_back(Warning{std::move(message), line});
+}
+
+class WarningScope {
+public:
+    explicit WarningScope(std::vector<Warning>& list) : previous_(g_warnings) { g_warnings = &list; }
+    ~WarningScope() { g_warnings = previous_; }
+    WarningScope(const WarningScope&) = delete;
+    WarningScope& operator=(const WarningScope&) = delete;
+private:
+    std::vector<Warning>* previous_;
+};
+
 std::string read_string(const IniSection& sec, std::string_view key) {
     if (const auto* e = find_entry(sec, key))
         return e->value;
     return {};
 }
 
+// A plain number.  A missing or empty key is just "absent"; a key that is
+// present but unreadable, or that holds a $NODEID formula where only a plain
+// number makes sense, is reported.
 std::optional<uint64_t> read_uint(const IniSection& sec, std::string_view key) {
     const auto* e = find_entry(sec, key);
     if (!e || e->value.empty()) return std::nullopt;
     auto r = parse_int_value(e->value);
-    if (!r || !std::holds_alternative<uint64_t>(*r)) return std::nullopt;
+    if (!r) {
+        warn(e->line, "[" + sec.name + "] " + std::string(key) + ": " + r.error().message + " - ignored");
+        return std::nullopt;
+    }
+    if (!std::holds_alternative<uint64_t>(*r)) {
+        warn(e->line, "[" + sec.name + "] " + std::string(key) + ": $NODEID is not allowed here: '" + e->value + "' - ignored");
+        return std::nullopt;
+    }
     return std::get<uint64_t>(*r);
 }
 
@@ -181,6 +273,13 @@ std::optional<AccessType> parse_access_type(std::string_view s) {
     if (s == "rww")   return AccessType::ReadWriteOutput;
     if (s == "const") return AccessType::Const;
     return std::nullopt;
+}
+
+// "1A00" for 0x1A00 — the way indices are written in messages.
+std::string upper_hex(uint16_t v) {
+    char buf[8];
+    std::snprintf(buf, sizeof(buf), "%04X", static_cast<unsigned>(v));
+    return buf;
 }
 
 // Parse a 4-hex-digit index string with no "0x" prefix — spec §4.6.3.2.
@@ -215,9 +314,12 @@ void fill_common_fields(T& obj, const IniSection& sec) {
     if (auto v = read_uint(sec, "datatype"))
         obj.dataType = static_cast<DataType>(*v);
 
-    if (const auto* e = find_entry(sec, "accesstype"))
+    if (const auto* e = find_entry(sec, "accesstype")) {
         if (auto at = parse_access_type(ascii_lower(e->value)))
             obj.accessType = *at;
+        else
+            warn(e->line, "[" + sec.name + "] AccessType: unknown value '" + e->value + "' - read-only assumed");
+    }
 
     if (const auto* e = find_entry(sec, "defaultvalue"); e && !e->value.empty())
         obj.defaultValue = e->value;
@@ -310,19 +412,29 @@ std::vector<uint16_t> parse_object_list(const IniSection* sec) {
     const auto* countEntry = find_entry(*sec, "supportedobjects");
     if (!countEntry || countEntry->value.empty()) return {};
 
-    const auto countVal = parse_int_value(countEntry->value);
-    if (!countVal || !std::holds_alternative<uint64_t>(*countVal)) return {};
-    const uint64_t n = std::get<uint64_t>(*countVal);
+    const auto n64 = read_uint(*sec, "supportedobjects");
+    if (!n64) return {};
+    // A list this long cannot be real (indices are 16 bit); do not reserve for garbage.
+    const uint64_t n = std::min<uint64_t>(*n64, 0x10000);
 
     std::vector<uint16_t> indices;
     indices.reserve(static_cast<size_t>(n));
     for (uint64_t i = 1; i <= n; ++i) {
-        const auto* e = find_entry(*sec, std::to_string(i));
-        if (!e) break; // stop at first gap
-        const auto v = parse_int_value(e->value);
-        if (v && std::holds_alternative<uint64_t>(*v))
-            indices.push_back(static_cast<uint16_t>(std::get<uint64_t>(*v)));
+        const auto key = std::to_string(i);
+        const auto* e = find_entry(*sec, key);
+        if (!e) {
+            warn(sec->line, "[" + sec->name + "] SupportedObjects=" + std::to_string(*n64) +
+                            " but entry " + key + " is missing - the rest of the list is ignored");
+            break; // stop at first gap
+        }
+        if (const auto v = read_uint(*sec, key))
+            indices.push_back(static_cast<uint16_t>(*v));
     }
+    // The count is what decides, not the entries that happen to follow it.
+    // Entries past it are almost always a count that was not updated.
+    if (find_entry(*sec, std::to_string(n + 1)))
+        warn(countEntry->line, "[" + sec->name + "] SupportedObjects=" + std::to_string(*n64) +
+                               " but entry " + std::to_string(n + 1) + " exists - entries past the count are ignored");
     return indices;
 }
 
@@ -460,7 +572,10 @@ build_object_dictionary(const IniDocument& doc,
         const std::string sectionName(buf);
 
         const IniSection* sec = find_section(doc, sectionName);
-        if (!sec) continue; // listed but no section — skip silently
+        if (!sec) {
+            warn(0, "object 0x" + upper_hex(idx) + " is listed but has no [" + sectionName + "] section - skipped");
+            continue;
+        }
 
         ObjectEntry obj = parse_object_entry(idx, *sec);
 
@@ -471,7 +586,10 @@ build_object_dictionary(const IniDocument& doc,
             const std::string_view rest = std::string_view(s.name).substr(4);
             if (!rest.starts_with("sub")) continue;
             const auto subIdx = parse_sub_index(rest.substr(3));
-            if (!subIdx) continue;
+            if (!subIdx) {
+                warn(s.line, "[" + s.name + "]: sub-index is not 1-2 hex digits - section ignored");
+                continue;
+            }
             obj.subObjects[*subIdx] = parse_sub_entry(s);
         }
 
@@ -559,6 +677,25 @@ EdsFile build_eds(const IniDocument& doc) {
 
     f.objectDictionary = build_object_dictionary(doc, allIndices);
     f.objectLinks      = parse_object_links(doc, allIndices);
+
+    // An object section that no list refers to is not part of the dictionary
+    // (the lists are authoritative, §4.6.1) — but silently losing it is how a
+    // forgotten SupportedObjects count turns into "the PDOs are missing".
+    // One summary warning, not one per section.
+    const std::set<uint16_t> listed(allIndices.begin(), allIndices.end());
+    std::string orphans;
+    int firstOrphanLine = 0;
+    for (const auto& s : doc) {
+        if (s.name.size() != 4) continue;
+        const auto idx = parse_hex_index(s.name);
+        if (!idx || listed.contains(*idx)) continue;
+        if (orphans.empty()) firstOrphanLine = s.line;
+        else orphans += ", ";
+        orphans += upper_hex(*idx);
+    }
+    if (!orphans.empty())
+        warn(firstOrphanLine, "object sections not listed in [MandatoryObjects], [OptionalObjects] or "
+                              "[ManufacturerObjects] are ignored: " + orphans);
     return f;
 }
 
@@ -587,17 +724,24 @@ read_file_content(const std::filesystem::path& path) {
 // ---------------------------------------------------------------------------
 
 std::expected<EdsFile, ParseError> parse_eds(std::string_view content) {
-    auto doc = parse_ini(content);
+    std::vector<Warning> warnings;
+    auto doc = parse_ini(content, warnings);
     if (!doc) return std::unexpected(doc.error());
-    return build_eds(*doc);
+    const WarningScope scope(warnings);
+    EdsFile f = build_eds(*doc);
+    f.warnings = std::move(warnings);
+    return f;
 }
 
 std::expected<DcfFile, ParseError> parse_dcf(std::string_view content) {
-    auto doc = parse_ini(content);
+    std::vector<Warning> warnings;
+    auto doc = parse_ini(content, warnings);
     if (!doc) return std::unexpected(doc.error());
+    const WarningScope scope(warnings);
     DcfFile f;
     static_cast<EdsFile&>(f) = build_eds(*doc);
     f.commissioning = parse_device_commissioning(*doc);
+    f.warnings = std::move(warnings);
     return f;
 }
 

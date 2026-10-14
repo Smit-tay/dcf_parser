@@ -13,6 +13,10 @@ namespace eds {
 // Both functions accept the raw file content as a string_view — the caller
 // owns the backing storage and it must outlive the call (it is not retained).
 //
+// A hard error (unterminated section header, UTF-16 file) returns ParseError.
+// Everything else that is skipped or unreadable is listed in the result's
+// `warnings`; an empty list means the whole file was understood.
+//
 // parse_eds() silently ignores DCF-only keys (ParameterValue, LastEDS,
 // [DeviceComissioning]); they appear in EdsFile::lastEds and ObjectEntry
 // fields but do not cause errors.
@@ -29,22 +33,27 @@ std::expected<DcfFile, ParseError> parse_dcf_file(const std::filesystem::path& p
 // ---------------------------------------------------------------------------
 // Integer value parsing — CiA 306 §4.3
 //
-// Accepts decimal ("10"), hex ("0x0A", "0xa", "0X000A"), octal ("012" → 8),
-// and $NODEID formula ("$NODEID+0x200", "$NODEID").
+// An integer expression is one or more terms joined by '+'.  A term is a
+// number — decimal ("10"), hex ("0x0A", "0X000A"), octal ("012" → 10), each
+// optionally negative ("-12") — or the token $NODEID.  So all of
+//   "0x200"   "$NODEID"   "$NODEID+0x200"   "1280+$NODEID"   "$NODEID+0x80+1"
+// are accepted.  $NODEID may appear once, in any position.
+//
+// Result: a plain number as uint64_t, or — if $NODEID occurs — a NodeIdFormula
+// whose offset is the sum of the other terms.
+//
+// Negative numbers come back as two's complement in the uint64_t ("-12" is
+// 0xFFFFFFFFFFFFFFF4).  Narrow to the object's width with sign_extend() below.
 //
 // Returns ParseError for any string that is not a valid integer expression.
 // Empty string is NOT valid — callers must check before calling.
 //
-// Non-standard lely behaviours (documented here for awareness):
-//   • Lely accepts "$nodeid" in any case.  The spec (§4.3 EBNF) writes
-//     $NODEID verbatim and does not state case-insensitivity for it.
-//     This parser requires uppercase "$NODEID".
-//   • Lely strips inline semicolons from values before parsing, turning
-//     "0x200;comment" into "0x200".  The spec §4.2 only marks column-0
-//     semicolons as comments.  This parser does NOT strip inline semicolons
-//     — the raw value is passed through so callers receive the full string.
-//     If a value genuinely contains a semicolon (unusual but not forbidden),
-//     the caller sees it as part of the value.
+// Deliberately lenient where real files differ from the spec (all of these
+// are things Lely accepts too):
+//   • "$NODEID" in any case, with blanks around the '+'.
+//   • "$NODEID" after a number ("1280+$NODEID").
+//   • A trailing ";comment" is cut off before parsing ("0x200 ;comment").
+//     Only here — string values keep their ';'.
 // ---------------------------------------------------------------------------
 std::expected<IntValue, ParseError> parse_int_value(std::string_view s);
 
@@ -52,6 +61,29 @@ std::expected<IntValue, ParseError> parse_int_value(std::string_view s);
 // If v holds a uint64_t it is returned (truncated to 32 bits).
 // If v holds a NodeIdFormula, nodeId + formula.offset is returned.
 uint32_t resolve_int_value(const IntValue& v, uint8_t nodeId = 0);
+
+// ---------------------------------------------------------------------------
+// Value helpers
+// ---------------------------------------------------------------------------
+
+// Width in bits of a fixed-size data type; 0 for VISIBLE_STRING, OCTET_STRING,
+// UNICODE_STRING, DOMAIN and UNKNOWN (no fixed width).
+unsigned data_type_bits(DataType);
+
+// Interprets the low `bits` bits of `raw` as a two's complement number.  Use it
+// on the result of parse_int_value() for INTEGERn defaults and limits:
+// sign_extend(0xFFFFFFFFFF, 40) is -1, sign_extend(raw_of("-12"), 8) is -12.
+// bits == 0 or >= 64 returns raw unchanged.
+int64_t sign_extend(uint64_t raw, unsigned bits);
+
+// The value the device actually holds: in a DCF, ParameterValue overrides
+// DefaultValue (CiA 306 §5.3.1).  Empty when the file gives neither.
+inline const std::optional<std::string>& effective_value(const ObjectEntry& o) {
+    return o.parameterValue ? o.parameterValue : o.defaultValue;
+}
+inline const std::optional<std::string>& effective_value(const SubObjectEntry& s) {
+    return s.parameterValue ? s.parameterValue : s.defaultValue;
+}
 
 // ---------------------------------------------------------------------------
 // Diagnostic stringifiers

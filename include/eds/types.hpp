@@ -77,4 +77,12 @@ struct ParseError {
         : message(std::move(msg)), line(ln) {}
 };
 
+// Something the parser skipped or could not make sense of, without giving up on
+// the file.  Collected in EdsFile::warnings so an importer can tell the user
+// what was ignored instead of silently producing a partial model.
+struct Warning {
+    std::string message;
+    int line{0};    // 1-based source line, 0 if not tied to one line
+};
+
 } // namespace eds

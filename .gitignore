@@ -2,3 +2,9 @@
 
 build/*
 !build/eds_parser.cbp
+
+# Build locations
+/out
+
+# Visual Studiop Garbage
+/.vs

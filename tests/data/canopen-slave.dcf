@@ -1,0 +1,968 @@
+[FileInfo]
+FileName=canopen-slave.dcf
+FileVersion=1
+FileRevision=1
+LastEDS=
+EDSVersion=4.0
+Description=Slave node - node-id committed via DeviceComissioning, one object per common CANopen datatype for name-based lookup testing
+CreationTime=12:00PM
+CreationDate=09-15-2026
+CreatedBy=Jack
+ModificationTime=12:00PM
+ModificationDate=09-15-2026
+ModifiedBy=Jack
+
+[DeviceInfo]
+VendorName=Embedded Ocean GmbH
+VendorNumber=000
+ProductName=canopen-driver slave
+ProductNumber=
+RevisionNumber=0
+BaudRate_10=1
+BaudRate_20=1
+BaudRate_50=1
+BaudRate_125=1
+BaudRate_250=1
+BaudRate_500=1
+BaudRate_800=1
+BaudRate_1000=1
+SimpleBootUpMaster=0
+SimpleBootUpSlave=1
+Granularity=8
+DynamicChannelsSupported=0
+CompactPDO=0
+GroupMessaging=0
+NrOfRXPDO=0
+NrOfTXPDO=4
+LSS_Supported=1
+
+[DeviceComissioning]
+NodeID=20
+NodeName=canopen-pi-slave
+Baudrate=250
+NetNumber=0
+NetworkName=
+CANopenManager=0
+LSS_SerialNumber=0
+
+[DummyUsage]
+Dummy0001=0
+Dummy0002=1
+Dummy0003=1
+Dummy0004=1
+Dummy0005=1
+Dummy0006=1
+Dummy0007=1
+
+[Comments]
+Lines=0
+
+[MandatoryObjects]
+SupportedObjects=3
+1=0x1000
+2=0x1001
+3=0x1018
+
+[1000]
+ParameterName=Device type
+ObjectType=0x7
+;StorageLocation=PERSIST_COMM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000000
+PDOMapping=0
+
+[1001]
+ParameterName=Error register
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x00
+PDOMapping=1
+
+[1018]
+ParameterName=Identity
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x6
+
+[1018sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x04
+PDOMapping=0
+
+[1018sub1]
+ParameterName=Vendor-ID
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000001
+PDOMapping=0
+
+[1018sub2]
+ParameterName=Product code
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000002
+PDOMapping=0
+
+[1018sub3]
+ParameterName=Revision number
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000001
+PDOMapping=0
+
+[1018sub4]
+ParameterName=Serial number
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000002
+PDOMapping=0
+
+[1018sub5]
+ParameterName=Serial number
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000099
+PDOMapping=0
+
+[OptionalObjects]
+SupportedObjects=33
+1=0x1003
+2=0x1005
+3=0x1006
+4=0x1007
+5=0x1014
+6=0x1015
+7=0x1017
+8=0x1019
+9=0x1200
+10=0x1800
+11=0x1A00
+12=0x1801
+13=0x1A01
+14=0x1803
+15=0x1A03
+16=0x1804
+17=0x1A04
+18=0x2000
+19=0x2001
+20=0x2002
+21=0x2003
+22=0x2004
+23=0x2005
+24=0x2006
+25=0x2007
+26=0x2008
+27=0x2009
+28=0x200A
+29=0x200B
+30=0x2011
+31=0x2013
+32=0x2014
+33=0x2015
+; See canopen-master.dcf for why 1014/1015 are required despite living in
+; [OptionalObjects] - CO_EM_init() needs them whenever CO_CONFIG_EM_PRODUCER
+; is compiled in, and CNT_EM is unconditionally 1 regardless of EDS content.
+[1003]
+ParameterName=Pre-defined error field
+ObjectType=0x8
+;StorageLocation=RAM
+SubNumber=0x11
+
+[1003sub0]
+ParameterName=Number of errors
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=
+PDOMapping=0
+
+[1003sub1]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub2]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub3]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub4]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub5]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub6]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub7]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub8]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub9]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subA]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subB]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subC]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subD]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subE]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003subF]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+[1003sub10]
+ParameterName=Standard error field
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=
+PDOMapping=0
+
+; SYNC consumer only - producer bit (0x40000000) deliberately NOT set,
+; unlike the master's 0x1005. CO_SYNC_init() requires 1006/1007/1019 too
+; whenever 1005 exists at all (same pattern as canopen-master.dcf) - but
+; this node only consumes, so 1006/1007/1019 just need to exist, their
+; values are irrelevant to consumption.
+[1005]
+ParameterName=COB-ID SYNC message
+ObjectType=0x7
+;StorageLocation=PERSIST_COMM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x00000080
+PDOMapping=0
+
+[1006]
+ParameterName=Communication cycle period
+ObjectType=0x7
+;StorageLocation=PERSIST_COMM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1007]
+ParameterName=Synchronous window length
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1019]
+ParameterName=Synchronous counter overflow value
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+; TPDO1, pre-configured enabled (COB-ID bit31 clear) with transmission
+; type 1 - "send on every SYNC" - so it fires visibly in lockstep with
+; the master's SYNC tick, no extra SDO configuration needed before
+; testing. Maps 0x2003 (INTEGER32 test value) - SDO-writable, so you can
+; write a distinctive value and watch it appear here on the next SYNC.
+[1800]
+ParameterName=TPDO communication parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x6
+
+[1800sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x06
+PDOMapping=0
+
+[1800sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x40000180
+PDOMapping=0
+
+[1800sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1800sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1800sub5]
+ParameterName=Event timer
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1800sub6]
+ParameterName=SYNC start value
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A00]
+ParameterName=TPDO mapping parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x2
+
+[1A00sub0]
+ParameterName=Number of mapped application objects in PDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A00sub1]
+ParameterName=Application object 1
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20030020
+PDOMapping=0
+
+; ---- TPDO2 - formula COB-ID ($NODEID+0x280), forces the walk to prove
+; COB-ID addressing at a second slot, not just node-id-formula coincidence
+; at slot 1 alone. Carries object 2011. ----
+
+[1801]
+ParameterName=TPDO communication parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x6
+
+[1801sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x06
+PDOMapping=0
+
+[1801sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x40000280
+PDOMapping=0
+
+[1801sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1801sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1801sub5]
+ParameterName=Event timer
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1801sub6]
+ParameterName=SYNC start value
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A01]
+ParameterName=TPDO mapping parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x3
+
+[1A01sub0]
+ParameterName=Number of mapped application objects in PDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=2
+PDOMapping=0
+
+[1A01sub1]
+ParameterName=Application object 1
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20110020
+PDOMapping=0
+
+[1A01sub2]
+ParameterName=Application object 2
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20150010
+PDOMapping=0
+
+; ---- TPDO4 - formula COB-ID ($NODEID+0x480), the last formula-covered
+; slot. Carries object 2013. ----
+
+[1803]
+ParameterName=TPDO communication parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x6
+
+[1803sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x06
+PDOMapping=0
+
+[1803sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x40000480
+PDOMapping=0
+
+[1803sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1803sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1803sub5]
+ParameterName=Event timer
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1803sub6]
+ParameterName=SYNC start value
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A03]
+ParameterName=TPDO mapping parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x2
+
+[1A03sub0]
+ParameterName=Number of mapped application objects in PDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A03sub1]
+ParameterName=Application object 1
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20130020
+PDOMapping=0
+
+; ---- TPDO5 - beyond the predefined connection set's 4 default slots.
+; COB-ID is hand-assigned (0x690, from the same genuinely-unclaimed 4-bit
+; function-code block used earlier this session for the live-reassignment
+; test), NOT $NODEID-derived - this is the slot that actually forces
+; COB-ID-based addressing, since it has no relationship to node-id at all.
+; Carries object 2014. ----
+
+[1804]
+ParameterName=TPDO communication parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x6
+
+[1804sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x06
+PDOMapping=0
+
+[1804sub1]
+ParameterName=COB-ID used by TPDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x40000690
+PDOMapping=0
+
+[1804sub2]
+ParameterName=Transmission type
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1804sub3]
+ParameterName=Inhibit time
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1804sub5]
+ParameterName=Event timer
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1804sub6]
+ParameterName=SYNC start value
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0
+PDOMapping=0
+
+[1A04]
+ParameterName=TPDO mapping parameter
+ObjectType=0x9
+;StorageLocation=PERSIST_COMM
+SubNumber=0x2
+
+[1A04sub0]
+ParameterName=Number of mapped application objects in PDO
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=1
+PDOMapping=0
+
+[1A04sub1]
+ParameterName=Application object 1
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x20140020
+PDOMapping=0
+
+; ---- Per-TPDO source objects, TPDO2-5 (TPDO1 keeps using the pre-existing
+; 2003). Distinct default values so each slot's data is identifiable on
+; the wire/in OD READ output without cross-referencing the mapping. ----
+
+[2011]
+ParameterName=TPDO2 source (INTEGER32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0004
+AccessType=rw
+DefaultValue=111
+PDOMapping=0
+
+[2015]
+ParameterName=TPDO2 source 2 (UNSIGNED16)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=777
+PDOMapping=0
+[2013]
+ParameterName=TPDO4 source (INTEGER32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0004
+AccessType=rw
+DefaultValue=333
+PDOMapping=0
+
+[2014]
+ParameterName=TPDO5 source (INTEGER32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0004
+AccessType=rw
+DefaultValue=444
+PDOMapping=0
+
+[1014]
+ParameterName=COB-ID EMCY
+ObjectType=0x7
+;StorageLocation=PERSIST_COMM
+DataType=0x0007
+AccessType=ro
+DefaultValue=$NODEID+0x80
+PDOMapping=0
+
+[1015]
+ParameterName=Inhibit time EMCY
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0x0000
+PDOMapping=0
+
+[1017]
+ParameterName=Producer heartbeat time
+ObjectType=0x7
+;StorageLocation=PERSIST_COMM
+DataType=0x0006
+AccessType=rw
+DefaultValue=1000
+PDOMapping=0
+
+; First SDO server channel - mandatory per CiA301 for every device; this is
+; what the master actually talks to for every test object below.
+[1200]
+ParameterName=SDO server parameter
+ObjectType=0x9
+;StorageLocation=RAM
+SubNumber=0x3
+
+[1200sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+
+[1200sub1]
+ParameterName=COB-ID client to server (rx)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=$NODEID+0x600
+PDOMapping=1
+
+[1200sub2]
+ParameterName=COB-ID server to client (tx)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=$NODEID+0x580
+PDOMapping=1
+
+; ---- One object per common CANopen datatype, 0x2000-0x200B ----
+; Each ParameterName ends with the datatype in parentheses deliberately -
+; that's the string the future name-based lookup table (priority item 3)
+; will need to key off. Skipped the odd bit-width types (INTEGER24/40/48/56,
+; UNSIGNED24/40/48/56) on purpose - rarely implemented in practice (not
+; natively supported by CANopenNode's own OD interface types either) and
+; would just add noise to a "one entry per commonly-used datatype" set.
+; 0x2008/0x2009 (VISIBLE_STRING/OCTET_STRING) are also the >4-byte objects
+; needed to finally test segmented SDO against a real CANopenNode server
+; (CO_SDOserver.c), not just CANopenUno's hand-written one - see the open
+; item on today's status.
+
+[2000]
+ParameterName=Test value (BOOLEAN)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0001
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[2001]
+ParameterName=Test value (INTEGER8)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0002
+AccessType=rw
+DefaultValue=-12
+PDOMapping=0
+
+[2002]
+ParameterName=Test value (INTEGER16)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0003
+AccessType=rw
+DefaultValue=-1234
+PDOMapping=0
+
+[2003]
+ParameterName=Test value (INTEGER32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0004
+AccessType=rw
+DefaultValue=-123456789
+PDOMapping=0
+
+[2004]
+ParameterName=Test value (UNSIGNED8)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x2A
+PDOMapping=0
+
+[2005]
+ParameterName=Test value (UNSIGNED16)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=rw
+DefaultValue=0x2A2A
+PDOMapping=0
+
+[2006]
+ParameterName=Test value (UNSIGNED32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x2A2A2A2A
+PDOMapping=0
+
+[2007]
+ParameterName=Test value (REAL32)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0008
+AccessType=rw
+DefaultValue=3.14159
+PDOMapping=0
+
+[2008]
+ParameterName=Test value (VISIBLE_STRING)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0009
+AccessType=rw
+DefaultValue=CANopenNode!
+PDOMapping=0
+
+[2009]
+ParameterName=Test value (OCTET_STRING)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x000A
+AccessType=rw
+DefaultValue=00112233445566778899
+PDOMapping=0
+
+[200A]
+ParameterName=Test value (REAL64)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0011
+AccessType=rw
+DefaultValue=2.718281828459045
+PDOMapping=0
+
+[200B]
+ParameterName=Test value (INTEGER64)
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0015
+AccessType=rw
+DefaultValue=-1234567890123456
+PDOMapping=0
+
+[ManufacturerObjects]
+SupportedObjects=0
