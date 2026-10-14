@@ -7,15 +7,15 @@ EDSVersion=4.0
 Description=Master node - NMT/SYNC/LSS master, node-id committed via DeviceComissioning
 CreationTime=12:00PM
 CreationDate=09-15-2026
-CreatedBy=Jack
+CreatedBy=Smittay
 ModificationTime=12:00PM
 ModificationDate=09-15-2026
 ModifiedBy=Jack
 
 [DeviceInfo]
-VendorName=Embedded Ocean GmbH
+VendorName=Vendor X
 VendorNumber=000
-ProductName=canopen-driver master
+ProductName=CanOpen
 ProductNumber=
 RevisionNumber=0
 BaudRate_10=1
@@ -38,7 +38,7 @@ LSS_Supported=1
 
 [DeviceComissioning]
 NodeID=1
-NodeName=canopen-master
+NodeName=master
 Baudrate=250
 NetNumber=0
 NetworkName=
@@ -164,13 +164,7 @@ SupportedObjects=30
 28=0x2013
 29=0x2014
 30=0x2015
-; CO_EM_init() requires these whenever CO_CONFIG_EM_PRODUCER is compiled in
-; (confirmed from CANopen.c: OD_GET(H1014, OD_H1014_COBID_EMERGENCY) is
-; passed unconditionally under that flag) - and CNT_EM is hardcoded to 1 in
-; od_config_build.c regardless of EDS content, so this isn't optional the
-; way its section name suggests. Missing 1014 is exactly what caused
-; "CANopen init failed (error -1, OD entry 0x0)" - errInfo never gets set
-; because the NULL-entry check fails before anything index-specific runs.
+
 [1003]
 ParameterName=Pre-defined error field
 ObjectType=0x8
@@ -330,15 +324,6 @@ AccessType=ro
 DefaultValue=
 PDOMapping=0
 
-; CO_SYNC_init() requires 1005/1006/1007/1019 all present whenever 0x1005
-; exists at all (CNT_SYNC becomes 1 the moment od_config_build() finds it) -
-; same "hardcoded regardless of sub-feature" pattern as 1014/1015 for EM,
-; confirmed from CANopen.c's own CO_SYNC_init() call. 0x1005's COB-ID uses
-; the standard CiA301 encoding: bit30 set = this node produces SYNC, bits
-; 10-0 = the 11-bit CAN identifier (0x080, the predefined SYNC COB-ID) -
-; matches every SYNC frame captured on the real bus so far (always raw
-; 0x080, since bit30/31 aren't part of the transmitted 11-bit arbitration
-; ID, only meaningful inside the 32-bit OD value itself).
 [1005]
 ParameterName=COB-ID SYNC message
 ObjectType=0x7
@@ -440,12 +425,6 @@ AccessType=ro
 DefaultValue=$NODEID+0x580
 PDOMapping=1
 
-; 5 concurrent SDO client channels (0x1280-0x1284) - contiguous, no gaps,
-; matching od_config_build.c's od_count_consecutive() assumption. Count is
-; a deliberate choice (see chat/wiki: more than 1 to prove real concurrency,
-; well short of 1-per-node) - not yet consumed by canopen_driver, which
-; today only drives channel 0; see "real multi-channel SDO client support"
-; on the Tue 15 Sept work list.
 [1280]
 ParameterName=SDO client parameter - channel 0
 ObjectType=0x9
@@ -656,15 +635,6 @@ AccessType=rw
 DefaultValue=0x01
 PDOMapping=0
 
-; ---- RPDO1 - item 6 baseline test, receives canopen-slave.dcf's TPDO1 ----
-; COB-ID 0x194 is a LITERAL match to canopen-slave.dcf's [1800sub1]
-; ($NODEID+0x180 with slave node-id 20 = 0x194) - NOT derived from this
-; node's own $NODEID (this node is 1), by design: an RPDO's COB-ID has to
-; match the REMOTE producer's TPDO, never this node's own identity - see
-; project discussion on hand-assigned vs formula-derived COB-IDs. Data
-; lands in local object 2010 (INTEGER32, mirrors slave's mapped source
-; object 2003) - read it back with canopen_driver_od_read(0x2010, 0).
-
 [1400]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
@@ -730,17 +700,6 @@ DataType=0x0004
 AccessType=rw
 DefaultValue=0
 PDOMapping=0
-
-; ---- RPDO2-5, matching canopen-slave.dcf's TPDO2-5. COB-IDs are literal,
-; matching the SLAVE's TPDO COB-IDs exactly - an RPDO's COB-ID always has
-; to match the remote producer, never this node's own identity (same
-; reasoning as RPDO1's 0x194, established earlier). RPDO2-4 happen to
-; match what this node's OWN formula would also produce for its node-id
-; (1) at those slots, purely by coincidence of small node-ids - written
-; as literal values regardless, not $NODEID-derived, since correctness
-; here must never depend on that coincidence. RPDO5 (0x690) has no
-; formula relationship to anything - hand-assigned, matching the slave's
-; own hand-assigned TPDO5. ----
 
 [1401]
 ParameterName=RPDO communication parameter
