@@ -7,15 +7,15 @@ EDSVersion=4.0
 Description=Slave node - node-id committed via DeviceComissioning, one object per common CANopen datatype for name-based lookup testing
 CreationTime=12:00PM
 CreationDate=09-15-2026
-CreatedBy=Jack
+CreatedBy=Smittay
 ModificationTime=12:00PM
 ModificationDate=09-15-2026
 ModifiedBy=Jack
 
 [DeviceInfo]
-VendorName=Embedded Ocean GmbH
+VendorName=Vendor GmbH
 VendorNumber=000
-ProductName=canopen-driver slave
+ProductName=slave
 ProductNumber=
 RevisionNumber=0
 BaudRate_10=1
@@ -38,7 +38,7 @@ LSS_Supported=1
 
 [DeviceComissioning]
 NodeID=20
-NodeName=canopen-pi-slave
+NodeName=canopen-slave
 Baudrate=250
 NetNumber=0
 NetworkName=
@@ -176,9 +176,7 @@ SupportedObjects=33
 31=0x2013
 32=0x2014
 33=0x2015
-; See canopen-master.dcf for why 1014/1015 are required despite living in
-; [OptionalObjects] - CO_EM_init() needs them whenever CO_CONFIG_EM_PRODUCER
-; is compiled in, and CNT_EM is unconditionally 1 regardless of EDS content.
+
 [1003]
 ParameterName=Pre-defined error field
 ObjectType=0x8
@@ -338,11 +336,6 @@ AccessType=ro
 DefaultValue=
 PDOMapping=0
 
-; SYNC consumer only - producer bit (0x40000000) deliberately NOT set,
-; unlike the master's 0x1005. CO_SYNC_init() requires 1006/1007/1019 too
-; whenever 1005 exists at all (same pattern as canopen-master.dcf) - but
-; this node only consumes, so 1006/1007/1019 just need to exist, their
-; values are irrelevant to consumption.
 [1005]
 ParameterName=COB-ID SYNC message
 ObjectType=0x7
@@ -379,11 +372,6 @@ AccessType=rw
 DefaultValue=0
 PDOMapping=0
 
-; TPDO1, pre-configured enabled (COB-ID bit31 clear) with transmission
-; type 1 - "send on every SYNC" - so it fires visibly in lockstep with
-; the master's SYNC tick, no extra SDO configuration needed before
-; testing. Maps 0x2003 (INTEGER32 test value) - SDO-writable, so you can
-; write a distinctive value and watch it appear here on the next SYNC.
 [1800]
 ParameterName=TPDO communication parameter
 ObjectType=0x9
@@ -467,10 +455,6 @@ DataType=0x0007
 AccessType=rw
 DefaultValue=0x20030020
 PDOMapping=0
-
-; ---- TPDO2 - formula COB-ID ($NODEID+0x280), forces the walk to prove
-; COB-ID addressing at a second slot, not just node-id-formula coincidence
-; at slot 1 alone. Carries object 2011. ----
 
 [1801]
 ParameterName=TPDO communication parameter
@@ -565,9 +549,6 @@ AccessType=rw
 DefaultValue=0x20150010
 PDOMapping=0
 
-; ---- TPDO4 - formula COB-ID ($NODEID+0x480), the last formula-covered
-; slot. Carries object 2013. ----
-
 [1803]
 ParameterName=TPDO communication parameter
 ObjectType=0x9
@@ -651,13 +632,6 @@ DataType=0x0007
 AccessType=rw
 DefaultValue=0x20130020
 PDOMapping=0
-
-; ---- TPDO5 - beyond the predefined connection set's 4 default slots.
-; COB-ID is hand-assigned (0x690, from the same genuinely-unclaimed 4-bit
-; function-code block used earlier this session for the live-reassignment
-; test), NOT $NODEID-derived - this is the slot that actually forces
-; COB-ID-based addressing, since it has no relationship to node-id at all.
-; Carries object 2014. ----
 
 [1804]
 ParameterName=TPDO communication parameter
@@ -743,10 +717,6 @@ AccessType=rw
 DefaultValue=0x20140020
 PDOMapping=0
 
-; ---- Per-TPDO source objects, TPDO2-5 (TPDO1 keeps using the pre-existing
-; 2003). Distinct default values so each slot's data is identifiable on
-; the wire/in OD READ output without cross-referencing the mapping. ----
-
 [2011]
 ParameterName=TPDO2 source (INTEGER32)
 ObjectType=0x7
@@ -809,8 +779,6 @@ AccessType=rw
 DefaultValue=1000
 PDOMapping=0
 
-; First SDO server channel - mandatory per CiA301 for every device; this is
-; what the master actually talks to for every test object below.
 [1200]
 ParameterName=SDO server parameter
 ObjectType=0x9
@@ -843,18 +811,6 @@ DataType=0x0007
 AccessType=ro
 DefaultValue=$NODEID+0x580
 PDOMapping=1
-
-; ---- One object per common CANopen datatype, 0x2000-0x200B ----
-; Each ParameterName ends with the datatype in parentheses deliberately -
-; that's the string the future name-based lookup table (priority item 3)
-; will need to key off. Skipped the odd bit-width types (INTEGER24/40/48/56,
-; UNSIGNED24/40/48/56) on purpose - rarely implemented in practice (not
-; natively supported by CANopenNode's own OD interface types either) and
-; would just add noise to a "one entry per commonly-used datatype" set.
-; 0x2008/0x2009 (VISIBLE_STRING/OCTET_STRING) are also the >4-byte objects
-; needed to finally test segmented SDO against a real CANopenNode server
-; (CO_SDOserver.c), not just CANopenUno's hand-written one - see the open
-; item on today's status.
 
 [2000]
 ParameterName=Test value (BOOLEAN)
