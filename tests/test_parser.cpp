@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <string>
 #include <variant>
+#include <vector>
 
 namespace {
 
@@ -215,6 +216,52 @@ void test_dcfs() {
     }
 }
 
+
+bool bytes(eds::DataType type, const char* text, std::vector<uint8_t> expect, uint8_t nodeId = 0) {
+    const auto r = eds::encode_value(type, text, nodeId);
+    return r && *r == expect;
+}
+
+bool encode_fails(eds::DataType type, const char* text) { return !eds::encode_value(type, text).has_value(); }
+
+void test_encode_value() {
+    using eds::DataType;
+    CHECK(bytes(DataType::Boolean, "1", {1}));
+    CHECK(bytes(DataType::Boolean, "0", {0}));
+    CHECK(bytes(DataType::Unsigned8, "0xFF", {0xFF}));
+    CHECK(bytes(DataType::Unsigned16, "0x1234", {0x34, 0x12}));
+    CHECK(bytes(DataType::Unsigned32, "0xFFFFFFFF", {0xFF, 0xFF, 0xFF, 0xFF}));
+    CHECK(bytes(DataType::Unsigned64, "0xA5A5A5A5A5A5A5A5", {0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5, 0xA5}));
+    CHECK(bytes(DataType::Integer8, "-1", {0xFF}));
+    CHECK(bytes(DataType::Integer8, "-128", {0x80}));
+    CHECK(bytes(DataType::Integer16, "-32768", {0x00, 0x80}));
+    CHECK(bytes(DataType::Integer40, "-1", {0xFF, 0xFF, 0xFF, 0xFF, 0xFF}));
+    CHECK(bytes(DataType::Integer24, "0x010203", {0x03, 0x02, 0x01}));
+    CHECK(bytes(DataType::Integer64, "-9223372036854775808", {0, 0, 0, 0, 0, 0, 0, 0x80}));
+    // $NODEID formulas
+    CHECK(bytes(DataType::Unsigned32, "$NODEID+0x600", {0x21, 0x06, 0, 0}, 33));
+    CHECK(bytes(DataType::Unsigned8, "$NODEID", {33}, 33));
+    // floating point
+    CHECK(bytes(DataType::Real32, "1.0", {0x00, 0x00, 0x80, 0x3F}));
+    CHECK(bytes(DataType::Real32, "-2.5", {0x00, 0x00, 0x20, 0xC0}));
+    CHECK(bytes(DataType::Real64, "0.5", {0, 0, 0, 0, 0, 0, 0xE0, 0x3F}));
+    // strings
+    CHECK(bytes(DataType::VisibleString, "abc", {'a', 'b', 'c'}));
+    CHECK(bytes(DataType::OctetString, "DEADBEEF", {0xDE, 0xAD, 0xBE, 0xEF}));
+    CHECK(bytes(DataType::OctetString, "de ad be ef", {0xDE, 0xAD, 0xBE, 0xEF}));
+    CHECK(bytes(DataType::Domain, "", {}));
+    // things that do not fit or cannot be encoded
+    CHECK(encode_fails(DataType::Unsigned8, "256"));
+    CHECK(encode_fails(DataType::Integer8, "-129"));
+    CHECK(encode_fails(DataType::Unsigned16, "-1"));
+    CHECK(encode_fails(DataType::Unsigned8, "abc"));
+    CHECK(encode_fails(DataType::OctetString, "ABC"));
+    CHECK(encode_fails(DataType::OctetString, "ZZ"));
+    CHECK(encode_fails(DataType::Real32, "1.0x"));
+    CHECK(encode_fails(DataType::UnicodeString, "x"));
+    CHECK(encode_fails(DataType::TimeOfDay, "0"));
+}
+
 void test_sample_eds() {
     const auto f = eds::parse_eds_file(EDS_SAMPLE_EDS);
     CHECK(f.has_value());
@@ -234,6 +281,7 @@ int main() {
     test_inline_pdo();
     test_dcfs();
     test_sample_eds();
+    test_encode_value();
     std::printf("%d checks, %d failed\n", g_checks, g_failed);
     return g_failed == 0 ? 0 : 1;
 }

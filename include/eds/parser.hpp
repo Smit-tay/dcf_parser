@@ -4,6 +4,7 @@
 #include <expected>
 #include <filesystem>
 #include <string_view>
+#include <vector>
 
 namespace eds {
 
@@ -84,6 +85,22 @@ inline const std::optional<std::string>& effective_value(const ObjectEntry& o) {
 inline const std::optional<std::string>& effective_value(const SubObjectEntry& s) {
     return s.parameterValue ? s.parameterValue : s.defaultValue;
 }
+
+// Encodes the text of a DefaultValue / ParameterValue into the bytes the object
+// holds, in the object's own data type:
+//   • BOOLEAN: one byte, 0 or 1.
+//   • INTEGERn / UNSIGNEDn: n/8 bytes, little endian, two's complement for
+//     negative numbers.  A $NODEID formula is resolved with `nodeId`.
+//   • REAL32 / REAL64: IEEE 754, little endian.
+//   • VISIBLE_STRING: the characters, no terminating zero.
+//   • OCTET_STRING: two hex digits per byte (blanks between bytes are ignored).
+//   • DOMAIN: always empty.
+// Returns ParseError for text that does not fit the type (including a number
+// that does not fit into the type's width) and for the types it does not
+// encode: UNICODE_STRING, TIME_OF_DAY, TIME_DIFFERENCE, Unknown.
+// Empty text is NOT valid — callers must check before calling.
+std::expected<std::vector<uint8_t>, ParseError> encode_value(
+    DataType type, std::string_view text, uint8_t nodeId = 0);
 
 // ---------------------------------------------------------------------------
 // Diagnostic stringifiers

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <charconv>
+#include <cstring>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
@@ -146,6 +147,100 @@ int64_t sign_extend(uint64_t raw, unsigned bits) {
     const uint64_t signBit = uint64_t{1} << (bits - 1);
     raw &= (uint64_t{1} << bits) - 1;
     return static_cast<int64_t>((raw ^ signBit) - signBit);
+}
+
+std::expected<std::vector<uint8_t>, ParseError> encode_value(
+    DataType type, std::string_view text, uint8_t nodeId) {
+    const auto bad = [&](const char* why) {
+        return std::unexpected(ParseError(std::string(why) + ": \"" + std::string(text) + "\""));
+    };
+
+    switch (type) {
+        case DataType::Domain:
+            return std::vector<uint8_t>{};
+
+        case DataType::VisibleString:
+            return std::vector<uint8_t>(text.begin(), text.end());
+
+        case DataType::OctetString: {
+            std::vector<uint8_t> bytes;
+            int high = -1;
+            for (const char c : text) {
+                if (c == ' ' || c == '\t') {
+                    if (high >= 0) return bad("odd number of hex digits");
+                    continue;
+                }
+                int digit;
+                if (c >= '0' && c <= '9')      digit = c - '0';
+                else if (c >= 'a' && c <= 'f') digit = c - 'a' + 10;
+                else if (c >= 'A' && c <= 'F') digit = c - 'A' + 10;
+                else return bad("not a hex digit");
+                if (high < 0) high = digit;
+                else { bytes.push_back(static_cast<uint8_t>(high << 4 | digit)); high = -1; }
+            }
+            if (high >= 0) return bad("odd number of hex digits");
+            return bytes;
+        }
+
+        case DataType::Real32:
+        case DataType::Real64: {
+            // Same cut-off as parse_int_value: a trailing ";comment" is not part of the number
+            std::string_view number = text.substr(0, text.find(';'));
+            while (!number.empty() && (number.front() == ' ' || number.front() == '\t')) number.remove_prefix(1);
+            while (!number.empty() && (number.back() == ' ' || number.back() == '\t')) number.remove_suffix(1);
+            if (!number.empty() && number.front() == '+') number.remove_prefix(1);
+            double value = 0;
+            const auto [end, ec] = std::from_chars(number.data(), number.data() + number.size(), value);
+            if (ec != std::errc{} || end != number.data() + number.size()) return bad("not a floating point number");
+            std::vector<uint8_t> bytes;
+            if (type == DataType::Real32) {
+                const float f = static_cast<float>(value);
+                uint32_t bits;
+                std::memcpy(&bits, &f, sizeof bits);
+                for (int i = 0; i < 4; ++i) bytes.push_back(static_cast<uint8_t>(bits >> (8 * i)));
+            } else {
+                uint64_t bits;
+                std::memcpy(&bits, &value, sizeof bits);
+                for (int i = 0; i < 8; ++i) bytes.push_back(static_cast<uint8_t>(bits >> (8 * i)));
+            }
+            return bytes;
+        }
+
+        case DataType::UnicodeString:
+        case DataType::TimeOfDay:
+        case DataType::TimeDifference:
+        case DataType::Unknown:
+            return bad("this data type cannot be encoded");
+
+        default:
+            break;   // the integer types, below
+    }
+
+    const auto parsed = parse_int_value(text);
+    if (!parsed) return std::unexpected(parsed.error());
+    const uint64_t raw = std::visit([nodeId](auto&& v) -> uint64_t {
+        using T = std::decay_t<decltype(v)>;
+        if constexpr (std::is_same_v<T, uint64_t>) return v;
+        else return static_cast<uint64_t>(nodeId) + v.offset;
+    }, *parsed);
+
+    if (type == DataType::Boolean) return std::vector<uint8_t>{static_cast<uint8_t>(raw != 0 ? 1 : 0)};
+
+    const unsigned bits = data_type_bits(type);
+    const bool isSigned = type == DataType::Integer8 || type == DataType::Integer16 || type == DataType::Integer24 ||
+                          type == DataType::Integer32 || type == DataType::Integer40 || type == DataType::Integer48 ||
+                          type == DataType::Integer56 || type == DataType::Integer64;
+    if (bits < 64) {
+        // Must fit the width: as an unsigned number, or (negative numbers arrive as two's complement
+        // of 64 bits) as a signed one for the signed types.
+        const uint64_t limit = uint64_t{1} << bits;
+        const bool fitsUnsigned = raw < limit;
+        const bool fitsSigned = isSigned && sign_extend(raw, bits) == static_cast<int64_t>(raw);
+        if (!fitsUnsigned && !fitsSigned) return bad("value does not fit the data type");
+    }
+    std::vector<uint8_t> bytes(bits / 8);
+    for (std::size_t i = 0; i < bytes.size(); ++i) bytes[i] = static_cast<uint8_t>(raw >> (8 * i));
+    return bytes;
 }
 
 // ---------------------------------------------------------------------------

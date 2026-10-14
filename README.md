@@ -57,7 +57,7 @@ for (const auto& pdo : eds::pdo_views(*dcf, eds::PdoDirection::Tx)) {
 
 | Header | Contents |
 |---|---|
-| `eds/parser.hpp` | `parse_eds`, `parse_dcf` (memory) and `parse_eds_file`, `parse_dcf_file` (disk); `parse_int_value`, `resolve_int_value`, `sign_extend`, `data_type_bits`, `effective_value` |
+| `eds/parser.hpp` | `parse_eds`, `parse_dcf` (memory) and `parse_eds_file`, `parse_dcf_file` (disk); `parse_int_value`, `resolve_int_value`, `sign_extend`, `data_type_bits`, `effective_value`, `encode_value` |
 | `eds/model.hpp` | `EdsFile`, `DcfFile`, `ObjectEntry`, `SubObjectEntry`, ... The object dictionary is a `std::map<uint16_t, ObjectEntry>` |
 | `eds/pdo.hpp` | `pdo_views()`: joins each PDO's communication and mapping objects into one table |
 | `eds/types.hpp` | Enums (`DataType`, `AccessType`, `ObjectType`), `ParseError`, `Warning`, `IntValue` |
@@ -65,6 +65,7 @@ for (const auto& pdo : eds::pdo_views(*dcf, eds::PdoDirection::Tx)) {
 ### Things worth knowing
 
 - **Values stay as text.** `DefaultValue` and `ParameterValue` are strings. Convert with `parse_int_value()`. It returns a number or a `$NODEID` formula. Resolve a formula with `resolve_int_value(v, nodeId)`.
+- **Bytes for a value.** `encode_value(type, text, nodeId)` turns a value's text into the bytes the object holds: little endian, `$NODEID` resolved, strings and octet strings as they are. It rejects numbers that do not fit the type, and the types it does not encode (UNICODE_STRING, TIME_OF_DAY, TIME_DIFFERENCE).
 - **ParameterValue beats DefaultValue** in a DCF. `effective_value()` applies that rule.
 - **Negative numbers** come back as two's complement in a `uint64_t`. Narrow them to the object's width with `sign_extend(raw, data_type_bits(type))`.
 - **Direction in `pdo_views` is the described device's own.** A node's TPDOs are its `Tx` view. A master that listens to them models them as RPDOs.
